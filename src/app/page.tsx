@@ -1,25 +1,18 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+//import { Header } from "../components/Header"
 
 export default async function Page() {
   const supabase = createClient(await cookies());
-  const { data: todos, error } = await supabase.from("todos").select("id, name");
-
-  if (error) {
-    console.error("Unable to load todos:", error.message);
-    return <main className="p-8"><p role="alert">Impossible de charger les tâches pour le moment.</p></main>;
-  }
 
   return (
     <main className="p-8">
-      <h1 className="mb-4 text-2xl font-semibold">Mes tâches</h1>
-      {todos.length === 0 ? (
-        <p>Aucune tâche pour le moment.</p>
-      ) : (
-        <ul className="list-inside list-disc">
-          {todos.map((todo) => <li key={todo.id}>{todo.name}</li>)}
-        </ul>
-      )}
+      {/* <Header /> */}
+      <h1 className="mb-4 text-2xl font-semibold">Bienvenue sur Adopte Ton Micro-onde !</h1>
+      {/* <img src="public/assets/accueil.jpg" /> */}
+      <p>Marre d'attendre qu'un micro-onde soit disponible à midi ? Réserve le tien en gagnant l'élection quotidienne !</p>
+      
+      
     </main>
   );
 }
