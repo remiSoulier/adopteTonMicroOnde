@@ -12,7 +12,7 @@ export default async function Page() {
 
   return (
     <main className="p-8">
-      <h1 className="mb-4 text-2xl font-semibold">Mes tâches</h1>
+      <h1>TEST</h1>
       {todos.length === 0 ? (
         <p>Aucune tâche pour le moment.</p>
       ) : (
