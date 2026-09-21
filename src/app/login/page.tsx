@@ -17,8 +17,6 @@ export default function LoginPage() {
     const EMAIL_DOMAIN = "microonde.app";
     const toEmail = (pseudo: string) =>
         `${pseudo.trim().toLowerCase()}@${EMAIL_DOMAIN}`;
-
-
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         setLoading(true);
@@ -46,20 +44,20 @@ export default function LoginPage() {
 
     return (
         <main>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-screen my-50">
                 <h1>{mode === "login" ? "Connexion" : "Inscription"}</h1>
-                <form className="flex flex-col gap-4 items-center card w-1/2" onSubmit={handleSubmit}>
-                    <div className="flex flex-col">
+                <form className="flex flex-col gap-4 items-center" onSubmit={handleSubmit}>
+                    <div className="flex flex-col w-160 gap-1">
                         <label className="text-sm">Pseudo</label>
                         <input
                             required
                             placeholder="Pseudo"
                             value={pseudo}
                             onChange={(e) => setPseudo(e.target.value)}
-                            className="input"
+                            className="input w-full"
                         />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-160 gap-1">
                         <label className="text-sm">Mot de passe</label>
                         <input
                             required
@@ -68,14 +66,16 @@ export default function LoginPage() {
                             minLength={6}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="input"
+                            className="input w-full"
                         />
                     </div>
 
                     {error && <p role="alert" className="text-red-500">{error}</p>}
-                    <button disabled={loading} type="submit" className="btn-primary">
+
+                    <button disabled={loading} type="submit" className="btn-primary w-full">
                         {mode === "login" ? "Se connecter" : "S'inscrire"}
                     </button>
+
                     <button
                         type="button"
                         onClick={() => setMode(mode === "login" ? "signup" : "login")}

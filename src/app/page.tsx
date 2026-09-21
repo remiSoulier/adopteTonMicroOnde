@@ -5,7 +5,7 @@ export default async function Page() {
   const supabase = createClient(await cookies());
 
   return (
-    <main className="p-8">
+    <main className="p-8 w-screen">
       <h1 className="mb-4 text-2xl font-semibold">Adopte ton micro-ondes</h1>
      
     </main>
