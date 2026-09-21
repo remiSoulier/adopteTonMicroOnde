@@ -23,6 +23,12 @@ export async function vote(photoId: string) {
     });
 
     if (error) {
+        console.error("Erreur Supabase lors du vote:", {
+            code: error.code,
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+        });
         throw new Error("Impossible d'enregistrer le vote.");
     }
 
