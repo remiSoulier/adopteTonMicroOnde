@@ -36,7 +36,7 @@ h1 {
 .card {
   background: var(--background-secondary);
   color: var(--foreground);
-  padding: 1rem;
+  padding-inline: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -53,14 +53,24 @@ h1 {
       outline-offset: 1px;
     }
   }
+
   .btn-primary {
     @apply bg-orange-600 text-white px-4 py-2 rounded-xl hover:bg-orange-700;
     cursor: pointer;
   }
+
   .btn-secondary {
     @apply bg-black text-white px-4 py-2 rounded-xl hover:bg-black/80;
     cursor: pointer;
   }
+
+  .link {
+    @apply hover:text-orange-600 font-bold;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: 1px solid var(--bg-orange-600);
+    }
+
+  }
 }
-
-
