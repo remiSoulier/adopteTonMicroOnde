@@ -1,5 +1,8 @@
 
+import type { Role } from "@/lib/roles";
+
 export type Profile = {
+  role: Role;
   id: string;
   pseudo: string;
   avatar_url: string | null;
