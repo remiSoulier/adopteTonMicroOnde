@@ -11,25 +11,25 @@ export default async function Navbar() {
   const isLoggedIn = !!data?.claims;
 
   return (
-    <div className="flex justify-between card items-center w-400">
-      <Image src="/logo.png" alt="Logo" width={80} height={80} />
+    <div className="flex justify-between card-yellow items-center w-full py-4 px-8">
+      <Image src="/logo.png" alt="Logo" width={100} height={100} className="h-16 w-auto" />
         <ul className="flex gap-8 ">
-          <li className="link">
+          <li className="btn-white">
             <Link href="/participation" className="text-sm">
               Participations
             </Link>
           </li>
-          <li className="link">
+          <li className="btn-white">
             <Link href="/election" className="text-sm">
               Élections
             </Link>
           </li>
-          <li className="link">
+          <li className="btn-white">
             <Link href="/gagnants" className="text-sm">
               Gagnants
             </Link>
           </li>
-          <li className="link">
+          <li className="btn-white">
             <Link href="/parametres" className="text-sm">
               Paramètres
             </Link  >

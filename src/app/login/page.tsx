@@ -17,6 +17,7 @@ export default function LoginPage() {
     const EMAIL_DOMAIN = "microonde.app";
     const toEmail = (pseudo: string) =>
         `${pseudo.trim().toLowerCase()}@${EMAIL_DOMAIN}`;
+    
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         setLoading(true);
@@ -43,12 +44,45 @@ export default function LoginPage() {
     }
 
     return (
-        <main>
-            <div className="flex flex-col items-center w-screen my-50">
-                <h1>{mode === "login" ? "Connexion" : "Inscription"}</h1>
-                <form className="flex flex-col gap-4 items-center" onSubmit={handleSubmit}>
-                    <div className="flex flex-col w-160 gap-1">
-                        <label className="text-sm">Pseudo</label>
+        <main className="flex w-full my-50">
+            <div className="flex flex-col items-start justify-center gap-4 w-1/2 px-16">
+                <div className="flex flex-col items-start gap-3">
+                    <h2 className="label-tag label-yellow text-4xl xl:text-6xl">Un pseudo.</h2>
+                    <h2 className="label-tag label-green text-4xl xl:text-6xl">Un mot de passe.</h2>
+                    <h2 className="label-tag label-pink text-4xl xl:text-6xl">Zéro email.</h2>
+                </div>
+                <p className="text-lg max-w-md">
+                    Ton pseudo, c&apos;est ton nom sur le podium du jour.
+                    Choisis-le comme si ta réputation en dépendait.
+                    Elle en dépend.
+                </p>
+                <p className="note text-lg">(on a vraiment supprimé les emails)</p>
+            </div>
+            <div className="flex flex-col gap-4 card items-center w-1/3 ">
+                <div role="tablist" className="tabs w-full mb-6">
+                    <button
+                        type="button"
+                        role="tab"
+                        aria-selected={mode === "login"}
+                        onClick={() => setMode("login")}
+                        className="tab"
+                    >
+                        Connexion
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        aria-selected={mode === "signup"}
+                        onClick={() => setMode("signup")}
+                        className="tab"
+                    >
+                        Inscription
+                    </button>
+                </div>
+                <h1>Besoin de chauffer ??</h1>
+                <form className="flex flex-col gap-4 items-center w-full" onSubmit={handleSubmit}>
+                    <div className="flex flex-col w-full gap-1">
+                        <label className="text-sm font-bold">Pseudo</label>
                         <input
                             required
                             placeholder="Pseudo"
@@ -57,8 +91,8 @@ export default function LoginPage() {
                             className="input w-full"
                         />
                     </div>
-                    <div className="flex flex-col w-160 gap-1">
-                        <label className="text-sm">Mot de passe</label>
+                    <div className="flex flex-col w-full gap-1">
+                        <label className="text-sm font-bold">Mot de passe</label>
                         <input
                             required
                             placeholder="Mot de passe"
@@ -70,19 +104,12 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    {error && <p role="alert" className="text-red-500">{error}</p>}
+                    {error && <p role="alert" className="text-sm font-bold text-red-600">{error}</p>}
 
                     <button disabled={loading} type="submit" className="btn-primary w-full">
                         {mode === "login" ? "Se connecter" : "S'inscrire"}
                     </button>
-
-                    <button
-                        type="button"
-                        onClick={() => setMode(mode === "login" ? "signup" : "login")}
-                        className="text-sm underline"
-                    >
-                        {mode === "login" ? "Pas de compte ? Inscrivez-vous" : "Déjà un compte ? Se connecter"}
-                    </button>
+                    <span className="text-sm">Pas encore de compte ? C&apos;est gratuit</span>
                 </form>
             </div>
         </main>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -13,6 +13,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const marker = Permanent_Marker({
+  variable: "--font-marker",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "Adopte Ton Micro-Ondes",
   description: "Ne galère plus à trouver un micro-onde à la pause ! (À condition d'être drôle).",
@@ -23,9 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="fr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${marker.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col items-center my-8">
+      <body className="min-h-full flex flex-col items-center">
         <Navbar />
         {children}
       </body>
