@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { isRole, ROLE_LABELS, type Role } from "@/lib/roles";
 import RoleForm from "./RoleForm";
+import PersonalSettings from "./PersonalSettings";
+import type { PersonalProfile } from "@/lib/profile";
 
 type UserRole = { id: string; pseudo: string; role: Role };
 
@@ -18,6 +20,9 @@ export default async function ParametresPage({ searchParams }: {
   if (error || !isRole(role)) {
     return <main className="mx-auto max-w-3xl px-6 py-12"><h1 className="text-3xl font-bold">Paramètres</h1><p role="alert" className="mt-6 rounded-2xl bg-orange-50 p-5 text-orange-950">Tes droits ne sont pas disponibles. Le profil doit exister et la configuration des rôles doit être installée dans Supabase.</p></main>;
   }
+
+  const { data: personalProfile, error: profileError } = await supabase.rpc("get_my_personal_profile").single();
+  const loginIdentifier = user.email?.endsWith("@microonde.app") ? user.email.slice(0, -"@microonde.app".length) : user.email ?? "ton identifiant habituel";
 
   const params = await searchParams;
   const requestedPage = Number(params.page ?? 1);
@@ -38,7 +43,8 @@ export default async function ParametresPage({ searchParams }: {
       <div className="mx-auto max-w-5xl">
         <p className="text-sm font-bold uppercase tracking-widest text-orange-700">Mon espace</p>
         <h1 className="mt-3 text-4xl font-black tracking-tight">Paramètres</h1>
-        <p className="mt-3 text-stone-600">Consulte ton niveau d’accès et les droits associés à ton compte.</p>
+        <p className="mt-3 text-stone-600">Modifie tes informations personnelles et consulte les droits de ton compte.</p>
+        {profileError || !personalProfile ? <p role="alert" className="my-8 rounded-2xl bg-orange-50 p-5 text-orange-950">Les informations personnelles ne sont pas disponibles. Vérifie la configuration du profil dans Supabase.</p> : <PersonalSettings profile={personalProfile as PersonalProfile} loginIdentifier={loginIdentifier} />}
         <div className="my-8 rounded-2xl border border-orange-200 bg-orange-100 p-6">
           <p className="text-sm text-orange-900">Ton rôle actuel</p>
           <p className="mt-1 text-2xl font-bold">{ROLE_LABELS[role]}</p>
