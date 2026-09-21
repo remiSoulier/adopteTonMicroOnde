@@ -29,6 +29,11 @@ export default async function Navbar() {
               Gagnants
             </Link>
           </li>
+          <li className="link">
+            <Link href="/parametres" className="text-sm">
+              Paramètres
+            </Link  >
+          </li>
         </ul>
 
       {isLoggedIn ? (
