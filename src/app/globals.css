@@ -9,6 +9,7 @@
   --bg-yellow: #fada6e;
   --bg-green: #72d8b8;
   --bg-pink: #f0a0d0;
+  --bg-blue: #7ec8f0;
 
   --foreground: #171717;
 }
@@ -35,12 +36,21 @@ body {
 }
 
 h1 {
-  font-size: 2rem;
-    font-weight: 800;
+    font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.03em;
+    @apply text-4xl xl:text-6xl
 }
 
+.bg-dots-pink {
+  background-color: #fbf0ce;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.15) 1.5px,  
+    transparent 1.5px
+  );
+  background-size: 18px 18px;  
+}
 
 
 @layer components {
@@ -65,17 +75,47 @@ h1 {
   .card {
     background: white;
     color: var(--foreground);
-    padding: 1rem;
+    padding: 1.5rem;
     border: 2px solid var(--foreground);
     border-radius: 0.75rem;
     box-shadow: 3px 3px 0 var(--foreground);
   }
+
   .card-yellow {
-    background: var(--background);
-    color: var(--foreground);
-    padding-inline: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--bg-yellow);
+  }
+
+  .card-blue {
+    background: var(--bg-blue);
+  }
+
+  .card-green {
+    background: var(--bg-green);
+  }
+
+  .card-pink {
+    background: var(--bg-pink);
+  }
+
+  .card-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.75rem;
+    border-radius: 9999px;
+    background: var(--foreground);
+    color: white;
+    font-weight: 900;
+  }
+
+  .card-title {
+    margin-bottom: 0.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-size: 1.25rem;
   }
   .btn-primary {
     @apply bg-orange-600 text-white px-4 py-2 rounded-xl hover:bg-orange-700;
@@ -166,6 +206,58 @@ h1 {
       transform: translate(3px, 3px);
       box-shadow: 0 0 0 var(--foreground);
     }  
+  }
+  .badge {
+    background-color: var(--background);
+    padding-inline: 10px;
+    padding-block: 2px;
+    border-radius: 100px;
+    border: 2px solid black
+  }
+
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    background: var(--bg-green);
+    border: 3px dashed var(--foreground);
+    border-radius: 1.75rem;
+    box-shadow: 6px 6px 0 var(--foreground);
+    cursor: pointer;
+  }
+
+  .dropzone-title {
+    margin: 0;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-size: 1.75rem;
+  }
+
+  .dropzone-hint {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .btn-dark {
+    background: var(--foreground);
+    color: white;
+    padding: 0.9rem 1.75rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: 3px solid var(--foreground);
+    box-shadow: 4px 4px 0 var(--bg-orange-600);
+    transition: transform 0.1s, box-shadow 0.1s;
+    font-weight: bold;
+
+    &:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--bg-orange-600);
+    }
   }
 
 }

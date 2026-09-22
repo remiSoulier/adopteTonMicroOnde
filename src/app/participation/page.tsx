@@ -18,8 +18,17 @@ export default async function ParticipationPage() {
     .gte("created_at", today.toISOString());
 
   return (
-    <main className="mx-auto max-w-xl p-8">
-      <h1 className="mb-4">Participer</h1>
+    <main className="w-screen h-screen p-8 bg-dots-pink">
+      <div className="flex flex-col">
+        <h1 className="mb-4">Poste ta photo</h1>
+        <p>Une photo par période de vote. Elle sera soumise au peuple à la prochaine ouverture, à 10 h. <br />Pas de retouche, pas de pitié.</p>
+        <div className="flex gap-4">
+          <span className="badge"> Une photo par période </span>
+          <span className="badge"> Zéro retouche </span>
+          <span className="badge"> Bienveillance obligatoire </span>
+
+        </div>
+      </div>
       <PhotoUploader userId={userId} alreadyPosted={(count ?? 0) > 0} />
     </main>
   );

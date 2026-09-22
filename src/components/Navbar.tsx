@@ -12,7 +12,7 @@ export default async function Navbar() {
   const { data: role } = isLoggedIn ? await supabase.rpc("get_my_role") : { data: null };
 
   return (
-    <div className="flex justify-between card-yellow items-center w-full py-4 px-8">
+    <div className="flex justify-between border-b-1 items-center w-full py-4 px-8">
       <Link href="/">
         <Image src="/logo.png" alt="Logo" width={100} height={100} className="h-16 w-auto" />
       </Link>

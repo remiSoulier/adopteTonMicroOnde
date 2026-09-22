@@ -74,7 +74,13 @@ export default function PhotoUploader({
 
     return (
         <div>
-            <input type="file" accept="image/*" onChange={handleFile} className="input" />
+            <label htmlFor="photo-input" className="dropzone">
+         
+                <p className="dropzone-title">Glisse ta plus belle catastrophe ici</p>
+                <span className="btn-dark">Choisir une image</span>
+                <span className="dropzone-hint">JPEG, PNG ou WebP · 5 Mo max · une seule chance, comme à l&apos;école</span>
+                <input id="photo-input" type="file" accept="image/*" onChange={handleFile} className="sr-only" />
+            </label>
             {error && <p role="alert" className="text-red-500">{error}</p>}
 
             <Modal open={file !== null} onClose={() => setFile(null)} title="Ta photo">
