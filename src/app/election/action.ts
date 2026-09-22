@@ -48,14 +48,21 @@ export async function draw(): Promise<{ error?: string; success?: string }> {
         return { error: "Seul un superadmin peut lancer le tirage." };
     }
 
-    const { error } = await supabase.rpc("draw_microwave", { p_user_id: user.id });
+    const { data: result, error } = await supabase.rpc("draw_microwave", { p_user_id: user.id });
     if (error) {
         console.error("Erreur Supabase lors du tirage:", error.code, error.message);
+        if (error.code === "PGRST202") return { error: "La fonction de classement doit être installée dans Supabase (draw-microwave.sql)." };
         return { error: "Impossible d’effectuer le tirage. Vérifie les attributions avant de réessayer." };
     }
 
     revalidatePath("/election");
     revalidatePath("/gagnants");
     revalidatePath("/compte");
-    return { success: "La fonction de tirage et d’attribution a été exécutée." };
+    if (!result || typeof result.closing_day !== "string") return { error: "Réponse du classement inattendue. Vérifie les attributions avant de réessayer." };
+    const date = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "Europe/Paris" }).format(new Date(`${result.closing_day}T12:00:00Z`));
+    if (result.status === "already_done") return { success: `Les attributions du ${date} ont déjà été enregistrées.` };
+    if (result.status === "no_devices") return { error: `Aucun micro-ondes actif disponible pour le ${date}.` };
+    if (result.status === "no_candidates") return { error: `Aucun participant avec des votes et sans attribution pour le ${date}.` };
+    if (result.status !== "completed") return { error: "Réponse du classement inattendue. Vérifie les attributions." };
+    return { success: `${result.assigned_count} attribution(s) enregistrée(s) pour le ${date}, selon le classement par votes.` };
 }

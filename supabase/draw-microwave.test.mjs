@@ -1,0 +1,38 @@
+import { PGlite } from '@electric-sql/pglite';
+import {readFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const db=new PGlite();
+const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+await db.exec(`create role anon; create role authenticated; create schema auth;
+create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
+create function public.get_my_role() returns smallint language sql stable as $$ select case when auth.uid()='${id(1)}' then 3 else 1 end::smallint $$;
+create table microwaves(id uuid primary key,nom text,is_active boolean default true,deleted_at timestamptz);
+create table photos(id uuid primary key,user_id uuid,created_at timestamptz);
+create table votes(id uuid primary key default gen_random_uuid(),photo_id uuid,voter_id uuid,created_at timestamptz);
+create table reservations(id uuid primary key,microwave_id uuid,user_id uuid,date date,created_at timestamptz,unique(microwave_id,date),unique(user_id,date));
+insert into microwaves values('${id(10)}','A',true,null),('${id(11)}','B',true,null),('${id(12)}','C',false,null),('${id(13)}','D',true,now());
+create table test_dates as select ((now() at time zone 'Europe/Paris')-interval '10 hours')::date as d;
+insert into photos select '${id(20)}','${id(2)}',((d-2)+time '11:00') at time zone 'Europe/Paris' from test_dates;
+insert into photos select '${id(21)}','${id(3)}',((d-2)+time '12:00') at time zone 'Europe/Paris' from test_dates;
+insert into photos select '${id(22)}','${id(2)}',((d-2)+time '13:00') at time zone 'Europe/Paris' from test_dates;
+insert into photos select '${id(23)}','${id(4)}',((d-2)+time '14:00') at time zone 'Europe/Paris' from test_dates;
+`);
+for (const [photo,voters] of [[20,[5,6,7]],[21,[5,6]],[22,[5,6,7,8]],[23,[5,6]]]) {
+ for(const voter of voters) await db.exec(`insert into votes(photo_id,voter_id,created_at) select '${id(photo)}','${id(voter)}',((d-1)+time '12:00') at time zone 'Europe/Paris' from test_dates`);
+}
+const sql=readFileSync(new URL('./draw-microwave.sql',import.meta.url),'utf8');
+await db.exec(sql);await db.exec(sql);
+await db.exec('set role anon');await assert.rejects(db.query(`select draw_microwave('${id(1)}')`));
+await db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id(2)}',false)`);
+await assert.rejects(db.query(`select draw_microwave('${id(2)}')`));
+await db.exec(`select set_config('request.jwt.claim.sub','${id(1)}',false)`);
+await assert.rejects(db.query(`select draw_microwave('${id(2)}')`));
+let response=(await db.query(`select draw_microwave('${id(1)}') as result`)).rows[0].result;
+assert.equal(response.status,'completed');assert.equal(response.assigned_count,2);
+assert.equal((await db.query(`select draw_microwave('${id(1)}') as result`)).rows[0].result.status,'already_done');
+await db.exec('reset role');
+const rows=(await db.query('select * from reservations order by microwave_id')).rows;
+assert.equal(rows.length,2);assert.equal(rows[0].user_id,id(2));assert.equal(rows[1].user_id,id(3));
+assert.equal(rows[0].microwave_id,id(10));assert.equal(rows[1].microwave_id,id(11));
+console.log('Passed: permissions, identity spoofing, vote ranking, multiple photos per user, tie-break, disabled/deleted devices, repeat draw.');
+await db.close();

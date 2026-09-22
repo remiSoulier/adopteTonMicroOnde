@@ -62,7 +62,7 @@ export default async function ElectionPage() {
     return (
         <main className="min-h-screen bg-[#faf7f2] px-5 py-12 text-stone-900 sm:px-8 sm:py-20">
             <div className="mx-auto max-w-6xl">
-                {role === 3 && <DrawButton />}
+                {role === 3 && <DrawButton key={fin.toISOString()} />}
                 <VoteCountdown key={nextReset.toISOString()} nextResetAt={nextReset.toISOString()} />
 
 
