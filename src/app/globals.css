@@ -36,7 +36,9 @@ body {
 
 h1 {
   font-size: 2rem;
-  font-weight: bold;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
 }
 
 
@@ -130,7 +132,7 @@ h1 {
     border: 2px solid var(--foreground);
     border-radius: 0.75rem;
     box-shadow: 3px 3px 0 var(--foreground);
-    font-weight: 800;
+    font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.03em;
   }

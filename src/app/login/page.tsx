@@ -79,7 +79,7 @@ export default function LoginPage() {
                         Inscription
                     </button>
                 </div>
-                <h1>Besoin de chauffer ??</h1>
+                <h1>Besoin de chauffer ?</h1>
                 <form className="flex flex-col gap-4 items-center w-full" onSubmit={handleSubmit}>
                     <div className="flex flex-col w-full gap-1">
                         <label className="text-sm font-bold">Pseudo</label>

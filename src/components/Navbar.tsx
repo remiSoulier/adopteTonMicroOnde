@@ -12,7 +12,9 @@ export default async function Navbar() {
 
   return (
     <div className="flex justify-between card-yellow items-center w-full py-4 px-8">
-      <Image src="/logo.png" alt="Logo" width={100} height={100} className="h-16 w-auto" />
+      <Link href="/">
+        <Image src="/logo.png" alt="Logo" width={100} height={100} className="h-16 w-auto" />
+      </Link>
         <ul className="flex gap-8 ">
           <li className="btn-white">
             <Link href="/participation" className="text-sm">
