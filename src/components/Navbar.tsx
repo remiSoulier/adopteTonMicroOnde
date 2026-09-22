@@ -9,6 +9,7 @@ export default async function Navbar() {
   const supabase = createClient(await cookies());
   const { data } = await supabase.auth.getClaims();
   const isLoggedIn = !!data?.claims;
+  const { data: role } = isLoggedIn ? await supabase.rpc("get_my_role") : { data: null };
 
   return (
     <div className="flex justify-between card-yellow items-center w-full py-4 px-8">
@@ -36,6 +37,7 @@ export default async function Navbar() {
               Paramètres
             </Link  >
           </li>
+          {(role === 2 || role === 3) && <li className="btn-white"><Link href="/admin/micro-ondes" className="text-sm">Micro-ondes</Link></li>}
         </ul>
 
       {isLoggedIn ? (

@@ -34,3 +34,28 @@ export async function vote(photoId: string) {
 
     revalidatePath("/election");
 }
+
+export async function draw(): Promise<{ error?: string; success?: string }> {
+    const supabase = createClient(await cookies());
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+        return { error: "Connecte-toi pour lancer le tirage." };
+    }
+
+    const { data: role, error: roleError } = await supabase.rpc("get_my_role");
+    if (roleError || role !== 3) {
+        return { error: "Seul un superadmin peut lancer le tirage." };
+    }
+
+    const { error } = await supabase.rpc("draw_microwave", { p_user_id: user.id });
+    if (error) {
+        console.error("Erreur Supabase lors du tirage:", error.code, error.message);
+        return { error: "Impossible d’effectuer le tirage. Vérifie les attributions avant de réessayer." };
+    }
+
+    revalidatePath("/election");
+    revalidatePath("/gagnants");
+    revalidatePath("/compte");
+    return { success: "La fonction de tirage et d’attribution a été exécutée." };
+}

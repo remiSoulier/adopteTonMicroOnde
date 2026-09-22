@@ -55,6 +55,8 @@ export default async function ParametresPage({ searchParams }: {
           {([1, 2, 3] as const).map((value) => <div key={value} className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="font-bold">{value} — {ROLE_LABELS[value]}</h2><p className="mt-2 text-sm text-stone-600">{value === 1 ? "Participation et vote." : value === 2 ? "Droits utilisateur et consultation des utilisateurs." : "Droits admin et attribution des rôles."}</p></div>)}
         </div>
 
+        {role >= 2 && <Link href="/admin/micro-ondes" className="mb-8 inline-block rounded-xl bg-orange-600 px-5 py-3 font-semibold text-white">Gérer les micro-ondes</Link>}
+
         {role >= 2 && <section aria-labelledby="users-title">
           <h2 id="users-title" className="mb-2 text-2xl font-bold">Gestion des utilisateurs</h2>
           {role === 3 && <p className="mb-5 text-sm text-stone-600">Un superadmin peut aussi nommer d’autres superadmins. Ton propre rôle ne peut pas être modifié ici.</p>}

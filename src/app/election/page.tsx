@@ -2,11 +2,15 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { vote } from "./action";
 import VoteCountdown from "./VoteCountdown";
+import DrawButton from "./DrawButton";
 import { getVotePeriod } from "./vote-period";
 
 export default async function ElectionPage() {
     const supabase = createClient(await cookies());
     const { data: { user } } = await supabase.auth.getUser();
+    const { data: role } = user
+        ? await supabase.rpc("get_my_role")
+        : { data: null };
     const { data: hasVoted, error: voteError } = await supabase
         .rpc("has_voted_since_reset");
 
@@ -58,6 +62,7 @@ export default async function ElectionPage() {
     return (
         <main className="min-h-screen bg-[#faf7f2] px-5 py-12 text-stone-900 sm:px-8 sm:py-20">
             <div className="mx-auto max-w-6xl">
+                {role === 3 && <DrawButton />}
                 <VoteCountdown key={nextReset.toISOString()} nextResetAt={nextReset.toISOString()} />
 
 
