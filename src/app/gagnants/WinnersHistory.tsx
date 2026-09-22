@@ -5,11 +5,14 @@ import { loadWinners } from "./actions";
 import WinnersModal from "@/components/WinnersModal";
 import { formatElectionDate, type ClosedElection, type WinnersResult } from "@/lib/winners";
 
-export default function WinnersHistory({ elections }: { elections: ClosedElection[] }) {
+export default function WinnersHistory({ elections, canDelete }: { elections: ClosedElection[]; canDelete: boolean }) {
   const [selected, setSelected] = useState<ClosedElection | null>(null);
   const [result, setResult] = useState<WinnersResult | null>(null);
   const [loading, setLoading] = useState(false);
   const request = useRef(0);
+  function removeFromResults(reservationId: string) {
+    setResult((current) => current ? { ...current, winners: current.winners.filter((winner) => winner.reservation_id !== reservationId) } : current);
+  }
   async function open(election: ClosedElection) {
     const id = ++request.current;
     setSelected(election);
@@ -34,6 +37,6 @@ export default function WinnersHistory({ elections }: { elections: ClosedElectio
         <p className="mt-5 font-semibold text-orange-700">Voir les gagnants <span aria-hidden="true">→</span></p>
       </button></li>)}
     </ul>
-    {selected && <WinnersModal election={selected} result={result} loading={loading} onClose={close} onRetry={() => void open(selected)} />}
+    {selected && <WinnersModal key={selected.day} canDelete={canDelete} onDeleted={removeFromResults} election={selected} result={result} loading={loading} onClose={close} onRetry={() => void open(selected)} />}
   </>;
 }

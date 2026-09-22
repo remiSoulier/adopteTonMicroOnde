@@ -9,6 +9,7 @@ export default async function GagnantsPage({ searchParams }: { searchParams: Pro
   const supabase = createClient(await cookies());
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  const { data: role } = await supabase.rpc("get_my_role");
   const params = await searchParams;
   const requested = Number(params.page ?? 1);
   const page = Number.isInteger(requested) && requested > 0 && requested <= 33334 ? requested : 1;
@@ -23,7 +24,7 @@ export default async function GagnantsPage({ searchParams }: { searchParams: Pro
       <p className="mb-10 mt-4 max-w-2xl text-stone-600">Retrouve les journées de vote terminées. Choisis une date pour découvrir les gagnants et les micro-ondes qui leur ont été attribués.</p>
       {error ? <p role="alert" className="rounded-2xl bg-red-50 p-6 text-red-800">Impossible de charger les journées. Vérifie que la configuration des résultats est installée dans Supabase, puis réessaie.</p>
         : elections.length === 0 ? <p className="rounded-2xl border border-dashed border-stone-300 bg-white p-10 text-center text-stone-600">Aucune journée de vote terminée sur cette page.</p>
-        : <WinnersHistory elections={elections} />}
+        : <WinnersHistory elections={elections} canDelete={role === 3} />}
       {!error && (page > 1 || entries.length > 30) && <nav aria-label="Pages de résultats" className="mt-8 flex justify-between gap-4 text-sm">
         {page > 1 ? <Link className="underline" href={`/gagnants?page=${page - 1}`}>Plus récentes</Link> : <span />}
         <span>Page {page}</span>

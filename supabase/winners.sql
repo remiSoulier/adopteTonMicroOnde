@@ -21,6 +21,7 @@ begin
     ((d + 1) + time '10:00') at time zone 'Europe/Paris', n
   from all_days
   where ((d + 1) + time '10:00') at time zone 'Europe/Paris' <= now()
+    or exists(select 1 from public.reservations r where r.date=d+1)
   order by d desc limit 31 offset p_offset;
 end;
 $$;
@@ -38,7 +39,9 @@ begin
   start_at := (p_day + time '10:00') at time zone 'Europe/Paris';
   end_at := ((p_day + 1) + time '10:00') at time zone 'Europe/Paris';
   submission_start := ((p_day - 1) + time '10:00') at time zone 'Europe/Paris';
-  if end_at > now() then raise exception 'Le vote est encore ouvert.' using errcode='22023'; end if;
+  if end_at > now() and not exists(select 1 from public.reservations r where r.date=p_day+1) then
+    raise exception 'Le vote est encore ouvert.' using errcode='22023';
+  end if;
 
   -- Reservation date = closing day. Only existing assignments are returned.
   -- The schema does not record a winning photo ID: only display a photo when
