@@ -428,7 +428,7 @@ h1 {
 
   .mw-door {
     will-change: transform;
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.9s ease;
+    transition: transform 0.75s cubic-bezier(0.6, 0.05, 0.3, 1);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -438,8 +438,7 @@ h1 {
   }
 
   .mw-primary-btn:active {
-    transform: translate(3px, 3px);
-    box-shadow: 2px 2px 0 #111;
+    transform: translate(2px, 2px);
   }
 
   .mw-panel {
