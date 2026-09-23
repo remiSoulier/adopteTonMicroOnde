@@ -13,10 +13,8 @@ const defaultWinners: Winner[] = [
 
 export default function MicrowaveHero({
     winners = defaultWinners,
-    weekLabel = "cette semaine",
 }: {
     winners?: Winner[];
-    weekLabel?: string;
 }) {
     const [open, setOpen] = useState(false);
     const cavityId = useId();
@@ -31,7 +29,6 @@ export default function MicrowaveHero({
                 background: "#E8431A",
                 border: "6px solid #111",
                 borderRadius: 24,
-                boxShadow: "10px 10px 0 #111",
                 padding: 16,
                 fontFamily: "var(--font-archivo), system-ui, sans-serif",
             }}
@@ -76,14 +73,6 @@ export default function MicrowaveHero({
                             transitionDelay: open ? "0.2s" : "0s",
                         }}
                     >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ fontWeight: 900, fontSize: 12, letterSpacing: 1, color: open ? "#111" : "#2B2A24" }}>
-                                DERNIERS GAGNANTS
-                            </span>
-                            <span style={{ fontFamily: "var(--font-marker), cursive", fontSize: 12, color: "#E8431A" }}>
-                                {weekLabel}
-                            </span>
-                        </div>
                         {winners.slice(0, 4).map((w) => (
                             <div
                                 key={w.rank}
@@ -95,7 +84,6 @@ export default function MicrowaveHero({
                                     border: "3px solid #111",
                                     borderRadius: 10,
                                     padding: "6px 9px",
-                                    boxShadow: "3px 3px 0 #111",
                                 }}
                             >
                                 <div
@@ -149,7 +137,6 @@ export default function MicrowaveHero({
                             background: "#C9F2E3",
                             transformOrigin: "left center",
                             transform: open ? "rotateY(-104deg)" : "rotateY(0deg)",
-                            boxShadow: open ? "24px 0 40px rgba(0,0,0,.25)" : "0 0 0 rgba(0,0,0,0)",
                             backfaceVisibility: "hidden",
                             display: "flex",
                             alignItems: "center",
@@ -242,7 +229,6 @@ export default function MicrowaveHero({
                             letterSpacing: 1,
                             padding: "8px 0",
                             cursor: "pointer",
-                            boxShadow: "4px 4px 0 #111",
                         }}
                     >
                         {open ? "FERMER" : "OUVRIR"}
