@@ -39,14 +39,14 @@ export default function VoteCountdown({ nextResetAt }: { nextResetAt: string }) 
     [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
 
   return (
-    <aside aria-label="Prochaine ouverture des votes" className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-orange-200 bg-orange-100 px-6 py-5 text-orange-950">
-      <div>
-        <p className="font-bold">Prochain vote dans</p>
-        <p className="mt-1 text-sm text-orange-800">Chaque jour à 10 h, heure de Paris</p>
+    <aside aria-label="Prochaine ouverture des votes" className="mw-panel mb-8">
+      <p className="mw-nameplate text-sm sm:text-base">Prochain vote dans</p>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+        <p className="text-sm font-semibold text-white">Chaque jour à 10 h, heure de Paris</p>
+        <span role="timer" aria-label={totalSeconds === null ? "Chargement du compte à rebours" : `${hours} heures, ${minutes} minutes et ${seconds} secondes restantes`} className="mw-timer text-2xl tabular-nums sm:text-3xl">
+          {label}
+        </span>
       </div>
-      <span role="timer" aria-label={totalSeconds === null ? "Chargement du compte à rebours" : `${hours} heures, ${minutes} minutes et ${seconds} secondes restantes`} className="rounded-xl bg-white/80 px-5 py-3 font-mono text-3xl font-bold tabular-nums tracking-wider">
-        {label}
-      </span>
     </aside>
   );
 }

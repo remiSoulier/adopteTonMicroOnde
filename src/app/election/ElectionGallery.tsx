@@ -19,7 +19,7 @@ export default function ElectionGallery({
 }: Props) {
   return (
     <section aria-labelledby="gallery-title">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b-2 border-black pb-4">
         <div>
           <h2 id="gallery-title" className="text-xl font-bold">Les candidatures</h2>
           <p className="mt-2 text-sm text-stone-600">
@@ -28,12 +28,12 @@ export default function ElectionGallery({
             {" (heure de Paris)."}
           </p>
         </div>
-        <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-stone-600">
+        <span className="badge">
           {photos.length} photo{photos.length > 1 ? "s" : ""}
         </span>
       </div>
       {photos.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-stone-300 bg-white/60 px-6 py-20 text-center">
+        <div className="card border-dashed px-6 py-20 text-center">
           <p className="mt-2 text-stone-500">Aucune photo pour le moment. Reviens bientôt !</p>
         </div>
       ) : (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
+import { Archivo, Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -19,6 +19,12 @@ const marker = Permanent_Marker({
   weight: "400",
 });
 
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+});
+
 export const metadata: Metadata = {
   title: "Adopte Ton Micro-Ondes",
   description: "Ne galère plus à trouver un micro-onde à la pause ! (À condition d'être drôle).",
@@ -29,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="fr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${marker.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${marker.variable} ${archivo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col items-center">
         <Navbar />
