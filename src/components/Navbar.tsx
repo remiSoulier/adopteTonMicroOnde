@@ -17,27 +17,35 @@ export default async function Navbar() {
         <Image src="/logo.png" alt="Logo" width={100} height={100} className="h-16 w-auto" />
       </Link>
         <ul className="flex gap-8 ">
+          <Link href="/participation" className="text-sm">
           <li className="btn-white">
-            <Link href="/participation" className="text-sm">
+
               Participations
-            </Link>
+
           </li>
+          </Link>
+          <Link href="/election" className="text-sm">
           <li className="btn-white">
-            <Link href="/election" className="text-sm">
+
               Élections
-            </Link>
+
           </li>
+          </Link>
+          <Link href="/gagnants" className="text-sm">
           <li className="btn-white">
-            <Link href="/gagnants" className="text-sm">
+
               Gagnants
-            </Link>
+
           </li>
+          </Link>
+          <Link href="/parametres" className="text-sm">
           <li className="btn-white">
-            <Link href="/parametres" className="text-sm">
+
               Paramètres
-            </Link  >
+
           </li>
-          {(role === 2 || role === 3) && <li className="btn-white"><Link href="/admin/micro-ondes" className="text-sm">Micro-ondes</Link></li>}
+          </Link  >
+          {(role === 2 || role === 3) && <Link href="/admin/micro-ondes" className="text-sm"><li className="btn-white">Micro-ondes</li></Link>}
         </ul>
 
       {isLoggedIn ? (
